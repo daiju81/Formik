@@ -4,7 +4,7 @@ import {
   withFormik,
   Formik
 } from 'formik';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 
 const MyForm = (props) => {
   const {
@@ -24,25 +24,30 @@ const MyForm = (props) => {
         value={values.name}
         name="name"
       />
-      {errors.name && touched.name && <div id="feedback">{errors.name}</div>}
+      {errors.name && <div className="errorText">{errors.name}</div>}
+      <input
+        type="email"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.email}
+        name="email"
+      />
+      {errors.email && touched.email && <div id="feedback">{errors.email}</div>}
       <button type="submit">Submit</button>
     </form>
   );
 };
 
 const MyEnhancedForm = withFormik({
-  mapPropsToValues: () => ({ name: "" }),
+  mapPropsToValues: () => ({ name: "", email: "" }),
+
+  
 
   // Custom sync validation
-  validate: (values) => {
-    const errors = {};
-
-    if (!values.name) {
-      errors.name = "Required";
-    }
-
-    return errors;
-  },
+  validationSchema: yup.object().shape({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+  }),
 
   handleSubmit: (values, { setSubmitting }) => {
     setTimeout(() => {
