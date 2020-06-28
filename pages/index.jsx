@@ -1,11 +1,14 @@
 import React from "react";
-import { Formik } from "formik";
+import { Formik, useFormikContext } from "formik";
 
-const Basic = () => (
+
+const Basic = () => {
+
+  return (
   <div>
     <h1>Anywhere in your app!</h1>
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ email: "aaa", password: "b", text: "a" }}
       validate={(values) => {
         const errors = {};
         if (!values.email) {
@@ -51,6 +54,25 @@ const Basic = () => (
             value={values.password}
           />
           {errors.password && touched.password && errors.password}
+          <input
+            type="text"
+            name="text"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.text}
+          />
+          <input
+            type="text"
+            name="text"
+            value={values.text}
+            onBlur={handleBlur}
+            onChange={(e) => {
+              formik.setFieldValue(
+                "text",
+                'aiueo'
+              );
+            }}
+          ></input>
           <button type="submit" disabled={isSubmitting}>
             Submit
           </button>
@@ -58,6 +80,6 @@ const Basic = () => (
       )}
     </Formik>
   </div>
-);
+)};
 
 export default Basic;
